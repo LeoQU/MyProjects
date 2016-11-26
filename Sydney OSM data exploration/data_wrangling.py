@@ -39,11 +39,11 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
     # store node information
     if element.tag == 'node':
         for attr in element.attrib:
-            if attr in NODE_FIELDS:
+            if attr in node_attr_fields:
                 node_attribs[attr] = element.attrib[attr]
         # store nodes_tags information
         for child in element:
-            if child.tag == 'tag' and 'k' in child.attrib and 'v' in child.attrib and not PROBLEMCHARS.match( child.attrib['k'] ):
+            if child.tag == 'tag' and 'k' in child.attrib and 'v' in child.attrib and not problem_chars.match( child.attrib['k'] ):
                 tag_dict = {}
                 k_value = child.attrib['k'] 
                 if LOWER_COLON.match( k_value ):
@@ -52,7 +52,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
                     k_value_group.pop(0)
                     tag_dict['key'] = ":".join(k_value_group)
                 else:
-                    tag_dict['type'] = 'regular'
+                    tag_dict['type'] = default_tag_type
                     tag_dict['key'] = child.attrib['k']
                     
                 tag_dict['id'] = element.attrib['id']
@@ -77,13 +77,13 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
     # store way information
     if element.tag == 'way':
         for attr in element.attrib:
-            if attr in WAY_FIELDS:
+            if attr in way_attr_fields:
                 way_attribs[attr] = element.attrib[attr]
         
         nd_count = 0 # counter of 'nd' tags
         # store ways_tags information
         for child in element:
-            if child.tag == 'tag' and 'k' in child.attrib and 'v' in child.attrib and not PROBLEMCHARS.match( child.attrib['k'] ):
+            if child.tag == 'tag' and 'k' in child.attrib and 'v' in child.attrib and not problem_chars.match( child.attrib['k'] ):
                 tag_dict = {}
                 k_value = child.attrib['k'] 
                 if LOWER_COLON.match( k_value ):
@@ -92,7 +92,7 @@ def shape_element(element, node_attr_fields=NODE_FIELDS, way_attr_fields=WAY_FIE
                     k_value_group.pop(0)
                     tag_dict['key'] = ":".join(k_value_group)
                 else:
-                    tag_dict['type'] = 'regular'
+                    tag_dict['type'] = default_tag_type
                     tag_dict['key'] = child.attrib['k']
                     
                 tag_dict['id'] = element.attrib['id']
