@@ -1,3 +1,0 @@
-[submodule "cartodb"]
-	path = cartodb
-	url = https://github.com/CartoDB/cartodb.git
